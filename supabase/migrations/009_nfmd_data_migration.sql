@@ -3,12 +3,16 @@
 -- Migrates 16,379 parameters, 163 literature refs, 89 materials
 -- Source: NFMD v2 schema (schema_v2.sql)
 -- Target: NFM unified schema (001–008)
+-- Database: supabase_db_workspace (port 54322)
 --
 -- IMPORTANT: This migration must run AFTER migrations 001–008
 -- which create the unified schema tables. Source NFMD v2 tables
 -- are renamed to _src_* prefix at the start to avoid name
 -- collisions with unified tables that share the same name
 -- (materials, material_aliases, terminology).
+--
+-- BACKUP: A pre-migration backup must exist in nfm-backups/
+-- before running this script. See docs/database-topology.md.
 -- ============================================================
 
 BEGIN;

@@ -3,6 +3,7 @@
 -- 7 verification checks for data integrity
 -- Run AFTER 009_nfmd_data_migration.sql
 -- Source tables are renamed to _src_* by migration 009
+-- Database: supabase_db_workspace (port 54322)
 -- ============================================================
 
 -- Results table for structured reporting
