@@ -13,6 +13,8 @@ dependencies = [
     "asyncpg>=0.29",
     "sqlalchemy>=2.0",
     "supabase>=2.0",
+    "pdf2image>=1.17",
+    "Pillow>=10.0",
 ]
 
 [project.optional-dependencies]
