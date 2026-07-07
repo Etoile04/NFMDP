@@ -9,6 +9,11 @@ Creates 50 JSON fixture files in backend/tests/fixtures/extraction/:
 Each fixture contains ground truth data simulating extracted figures from
 nuclear materials research papers.
 
+NOTE: Bootstrap fixtures have prediction == ground_truth (identical), so
+eval_extraction_accuracy.py will report 100% accuracy. This validates the
+evaluation pipeline mechanics only. In Phase 2, predictions will diverge from
+ground truth to exercise the tolerance/comparison logic.
+
 Usage:
     python scripts/generate_fixtures.py --output-dir backend/tests/fixtures/extraction
 """
@@ -17,7 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import dataclass, field as dc_field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 

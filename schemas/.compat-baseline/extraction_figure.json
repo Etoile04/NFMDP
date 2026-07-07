@@ -1,0 +1,76 @@
+{
+  "module_name": "extraction_figure",
+  "classes": {
+    "ExtractionFigureBase": {
+      "job_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": "Field(description='Parent extraction job ID.')"
+      },
+      "page_number": {
+        "field_type": "int",
+        "required": true,
+        "default": "Field(ge=1, description='Page number in source document.')"
+      },
+      "figure_type": {
+        "field_type": "str",
+        "required": true,
+        "default": "Field(max_length=50, description='Type of figure (chart, diagram, plot, etc.).')"
+      },
+      "bounding_box": {
+        "field_type": "dict[str, Any] | None",
+        "required": false,
+        "default": "Field(default=None, description='Bounding box coordinates for the figure region.')"
+      },
+      "caption": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, description='Figure caption text extracted from document.')"
+      },
+      "image_path": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, max_length=500, description='Path to the extracted/stored figure image.')"
+      },
+      "extracted_data": {
+        "field_type": "dict[str, Any]",
+        "required": false,
+        "default": "Field(default_factory=dict, description='Structured data extracted from the figure.')"
+      },
+      "confidence": {
+        "field_type": "float",
+        "required": false,
+        "default": "Field(default=0.0, ge=0.0, le=1.0, description='Extraction confidence score (0-1).')"
+      },
+      "extraction_method": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, max_length=50, description='Method used for extraction (vlm, ocr, hybrid).')"
+      }
+    },
+    "ExtractionFigureCreate": {
+      "source_id": {
+        "field_type": "UUID | None",
+        "required": false,
+        "default": "Field(default=None, description='Optional data source ID this figure came from.')"
+      }
+    },
+    "ExtractionFigureRead": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": "Field(description='Unique figure record ID.')"
+      },
+      "source_id": {
+        "field_type": "UUID | None",
+        "required": false,
+        "default": "Field(default=None, description='Data source ID this figure came from.')"
+      },
+      "created_at": {
+        "field_type": "datetime",
+        "required": true,
+        "default": "Field(description='Record creation timestamp.')"
+      }
+    }
+  }
+}

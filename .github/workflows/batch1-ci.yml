@@ -69,12 +69,21 @@ jobs:
         run: pip install -e ".[dev]" mypy
 
       - name: Run mypy
-        run: mypy nfm_backend/ --ignore-missing-imports --no-error-summary 2>&1 || true
-        # Non-blocking until type annotations are complete
+        run: |
+          set +e
+          mypy nfm_backend/ --ignore-missing-imports --no-error-summary 2>&1
+          echo "MYPY_EXIT=$?" >> $GITHUB_ENV
+          # Non-blocking until type annotations are complete
+
+      - name: Report mypy status
+        if: always()
+        run: |
+          echo "typecheck: ${{ env.MYPY_EXIT == '0' && 'success' || 'failure' }}"
 
   unit-tests:
     name: Unit Tests (pytest)
     runs-on: ubuntu-latest
+    needs: [lint]
     defaults:
       run:
         working-directory: ./backend
@@ -161,12 +170,13 @@ jobs:
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [lint, unit-tests, extraction-accuracy, schema-compat]
+    needs: [lint, typecheck, unit-tests, extraction-accuracy, schema-compat]
     if: always()
     steps:
       - name: Check all jobs passed
         run: |
           echo "lint: ${{ needs.lint.result }}"
+          echo "typecheck: ${{ needs.typecheck.result }}"
           echo "unit-tests: ${{ needs.unit-tests.result }}"
           echo "extraction-accuracy: ${{ needs.extraction-accuracy.result }}"
           echo "schema-compat: ${{ needs.schema-compat.result }}"

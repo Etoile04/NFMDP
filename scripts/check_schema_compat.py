@@ -78,6 +78,21 @@ def is_optional_type(annotation_str: str) -> bool:
     )
 
 
+def _is_field_call_with_default(value: ast.expr) -> bool:
+    """Check if a Field() call provides an actual default value.
+
+    Pydantic Field(description=...) without default/default_factory is still
+    required. Only Field(default=...) or Field(default_factory=...) makes it
+    optional.
+    """
+    if not isinstance(value, ast.Call):
+        return False
+    for kw in value.keywords:
+        if kw.arg in ("default", "default_factory"):
+            return True
+    return False
+
+
 def extract_fields_from_classdef(node: ast.ClassDef) -> dict[str, FieldDef]:
     """Extract field definitions from a Pydantic model or dataclass ClassDef."""
     fields: dict[str, FieldDef] = {}
@@ -91,7 +106,18 @@ def extract_fields_from_classdef(node: ast.ClassDef) -> dict[str, FieldDef]:
         has_default = stmt.value is not None
         default_str = parse_default_value(stmt.value) if has_default else None
 
-        required = not has_default and not is_optional_type(field_type)
+        # Pydantic Field() without default/default_factory is still required
+        is_pydantic_field_without_default = (
+            has_default and _is_field_call_with_default(stmt.value) is False
+            and isinstance(stmt.value, ast.Call)
+            and isinstance(stmt.value.func, ast.Name)
+            and stmt.value.func.id == "Field"
+        )
+
+        if is_pydantic_field_without_default:
+            required = not is_optional_type(field_type)
+        else:
+            required = not has_default and not is_optional_type(field_type)
 
         fields[name] = FieldDef(
             name=name,

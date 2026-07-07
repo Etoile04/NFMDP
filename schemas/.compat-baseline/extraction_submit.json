@@ -63,12 +63,12 @@
     "ExtractionSubmitResponse": {
       "job_id": {
         "field_type": "str",
-        "required": false,
+        "required": true,
         "default": "Field(description='Unique job identifier for tracking extraction progress.')"
       },
       "status": {
         "field_type": "Literal['queued', 'processing']",
-        "required": false,
+        "required": true,
         "default": "Field(description='Current status of the extraction job.')"
       },
       "estimated_duration_seconds": {
