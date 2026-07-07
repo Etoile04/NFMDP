@@ -53,6 +53,7 @@ class Material(MaterialBase):
 
 
 class PropertyMeasurementBase(BaseModel):
+    value_type: str | None = None
     value_scalar: float | None = None
     unit: str | None = None
     uncertainty_value: float | None = None

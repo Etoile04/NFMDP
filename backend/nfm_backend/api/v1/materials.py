@@ -6,6 +6,7 @@ that serve the seeded literature database.
 
 from __future__ import annotations
 
+import json
 from typing import Any
 from uuid import UUID
 
@@ -22,9 +23,24 @@ from nfm_backend.services.database import get_pool
 router = APIRouter()
 
 
+_JSONB_COLUMNS = {"conditions"}
+
+
 def _record_to_dict(record: Any, columns: list[str]) -> dict[str, Any]:
-    """Convert an asyncpg Record to a plain dict."""
-    return {col: record[col] for col in columns}
+    """Convert an asyncpg Record to a plain dict.
+
+    asyncpg returns jsonb columns as strings — deserialize them.
+    """
+    result: dict[str, Any] = {}
+    for col in columns:
+        value = record[col]
+        if col in _JSONB_COLUMNS and isinstance(value, str):
+            try:
+                value = json.loads(value)
+            except (json.JSONDecodeError, TypeError):
+                pass
+        result[col] = value
+    return result
 
 
 # -- GET /api/v1/sources --
@@ -274,4 +290,10 @@ async def get_property(measurement_id: UUID) -> PropertyMeasurement:
     )
     if row is None:
         raise HTTPException(status_code=404, detail="Property measurement not found")
-    return PropertyMeasurement(**dict(row))
+    columns = [
+        "id", "property_type_id", "material_id", "dataset_id",
+        "data_source_id", "value_type", "value_scalar", "unit",
+        "uncertainty_value", "uncertainty_type", "conditions",
+        "confidence", "method", "notes", "review_status", "created_at",
+    ]
+    return PropertyMeasurement(**_record_to_dict(row, columns))
