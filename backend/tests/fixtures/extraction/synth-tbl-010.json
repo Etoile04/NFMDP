@@ -1,0 +1,76 @@
+{
+  "paper_id": "SYNTH-TBL-010",
+  "figure_type": "table",
+  "ground_truth": {
+    "figure_type": "table",
+    "extracted_data": {
+      "property": "coolant_compatibility",
+      "value": "2 rows",
+      "unit": null,
+      "material": null,
+      "condition": null
+    },
+    "bounding_boxes": [
+      {
+        "x1": 60,
+        "y1": 50,
+        "x2": 540,
+        "y2": 80,
+        "label": "table_title",
+        "confidence": 0.9
+      },
+      {
+        "x1": 60,
+        "y1": 85,
+        "x2": 540,
+        "y2": 129,
+        "label": "table_body",
+        "confidence": 0.93
+      },
+      {
+        "x1": 60,
+        "y1": 85,
+        "x2": 540,
+        "y2": 107,
+        "label": "header_row",
+        "confidence": 0.91
+      }
+    ]
+  },
+  "prediction": {
+    "figure_type": "table",
+    "extracted_data": {
+      "property": "coolant_compatibility",
+      "value": "2 rows",
+      "unit": null,
+      "material": null,
+      "condition": null
+    },
+    "bounding_boxes": [
+      {
+        "x1": 60,
+        "y1": 50,
+        "x2": 540,
+        "y2": 80,
+        "label": "table_title",
+        "confidence": 0.9
+      },
+      {
+        "x1": 60,
+        "y1": 85,
+        "x2": 540,
+        "y2": 129,
+        "label": "table_body",
+        "confidence": 0.93
+      },
+      {
+        "x1": 60,
+        "y1": 85,
+        "x2": 540,
+        "y2": 107,
+        "label": "header_row",
+        "confidence": 0.91
+      }
+    ]
+  }
+}

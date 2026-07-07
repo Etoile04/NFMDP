@@ -1,0 +1,228 @@
+{
+  "module_name": "ontology",
+  "classes": {
+    "KGNode": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "corpus_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "ontology_id": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "node_type": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "name": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "name_zh": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "uri": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "definition": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "synonyms": {
+        "field_type": "list[str]",
+        "required": false,
+        "default": "field(default_factory=list)"
+      },
+      "properties": {
+        "field_type": "dict[str, Any]",
+        "required": false,
+        "default": "field(default_factory=dict)"
+      },
+      "synced_to_graph": {
+        "field_type": "bool",
+        "required": false,
+        "default": "False"
+      },
+      "graph_synced_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      },
+      "created_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      },
+      "updated_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "KGEdge": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "corpus_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "source_node_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "target_node_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "relationship_type": {
+        "field_type": "RelationshipType",
+        "required": true,
+        "default": null
+      },
+      "label": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "properties": {
+        "field_type": "dict[str, Any]",
+        "required": false,
+        "default": "field(default_factory=dict)"
+      },
+      "weight": {
+        "field_type": "float | None",
+        "required": false,
+        "default": "None"
+      },
+      "synced_to_graph": {
+        "field_type": "bool",
+        "required": false,
+        "default": "False"
+      },
+      "graph_synced_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      },
+      "created_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      },
+      "updated_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "SyncResult": {
+      "corpus_id": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "mode": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "nodes_synced": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "edges_synced": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "nodes_failed": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "edges_failed": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "errors": {
+        "field_type": "tuple[str, ...]",
+        "required": false,
+        "default": "()"
+      },
+      "duration_seconds": {
+        "field_type": "float",
+        "required": false,
+        "default": "0.0"
+      }
+    },
+    "SyncStatus": {
+      "corpus_id": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "total_nodes": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "synced_nodes": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "unsynced_nodes": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "total_edges": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "synced_edges": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "unsynced_edges": {
+        "field_type": "int",
+        "required": false,
+        "default": "0"
+      },
+      "graph_exists": {
+        "field_type": "bool",
+        "required": false,
+        "default": "False"
+      },
+      "last_synced_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    }
+  }
+}
