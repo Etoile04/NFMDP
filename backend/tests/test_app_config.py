@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
 from nfm_backend.app import create_app
 from nfm_backend.config import Settings
-
 
 # ---------------------------------------------------------------------------
 # config.py

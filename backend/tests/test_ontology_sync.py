@@ -13,11 +13,8 @@ import pytest
 from sqlalchemy.exc import OperationalError
 
 from nfm_backend.schemas.ontology import (
-    KGEdge,
-    KGNode,
     RelationshipType,
     SyncResult,
-    SyncStatus,
 )
 from nfm_backend.services.ontology_sync import (
     _ensure_age_session,
@@ -216,19 +213,13 @@ class TestSyncCorpusFull:
 class TestSyncCorpusIncremental:
     def test_graph_not_exists_catches_error(self) -> None:
         conn = _make_safe_conn(graph_exists=False)
-        result = sync_corpus_to_graph(
-            conn, SAMPLE_CORPUS_ID, mode="incremental"
-        )
+        result = sync_corpus_to_graph(conn, SAMPLE_CORPUS_ID, mode="incremental")
         assert result.success is False
         assert any("does not exist" in e for e in result.errors)
 
     def test_incremental_sync_empty(self) -> None:
-        conn = _make_safe_conn(
-            node_rows=[], edge_rows=[], graph_exists=True
-        )
-        result = sync_corpus_to_graph(
-            conn, SAMPLE_CORPUS_ID, mode="incremental"
-        )
+        conn = _make_safe_conn(node_rows=[], edge_rows=[], graph_exists=True)
+        result = sync_corpus_to_graph(conn, SAMPLE_CORPUS_ID, mode="incremental")
         assert result.success is True
 
 
@@ -244,15 +235,11 @@ class TestRebuildOntologyGraph:
         with patch(
             "nfm_backend.services.ontology_sync.sync_corpus_to_graph"
         ) as mock_sync:
-            mock_sync.return_value = SyncResult(
-                corpus_id=SAMPLE_CORPUS_ID, mode="full"
-            )
+            mock_sync.return_value = SyncResult(corpus_id=SAMPLE_CORPUS_ID, mode="full")
             result = rebuild_ontology_graph(conn, SAMPLE_CORPUS_ID)
 
         assert result.mode == "full"
-        mock_sync.assert_called_once_with(
-            conn, SAMPLE_CORPUS_ID, mode="full"
-        )
+        mock_sync.assert_called_once_with(conn, SAMPLE_CORPUS_ID, mode="full")
 
 
 # ---------------------------------------------------------------------------

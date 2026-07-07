@@ -1,4 +1,5 @@
-"""Tests for Pydantic schemas — extraction_submit, extraction_figure, materials, ontology."""
+"""Tests for Pydantic schemas: extraction_submit, extraction_figure, materials,
+ontology."""
 
 from __future__ import annotations
 
@@ -25,14 +26,13 @@ from nfm_backend.schemas.materials import (
     PaginatedResponse,
     PropertyMeasurement,
 )
-from nfm_backend.schemas.ontology import (
+from nfm_backend.schemas.ontology import (  # noqa: F401
     KGEdge,
     KGNode,
     RelationshipType,
     SyncResult,
     SyncStatus,
 )
-
 
 # ---------------------------------------------------------------------------
 # extraction_submit.py schemas
@@ -80,9 +80,9 @@ class TestMultimodalOptions:
         assert len(opts.figure_types) == 2
 
     def test_confidence_bounds(self) -> None:
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="confidence_threshold"):
             MultimodalOptions(confidence_threshold=1.5)
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="confidence_threshold"):
             MultimodalOptions(confidence_threshold=-0.1)
 
 
@@ -162,7 +162,7 @@ class TestExtractionFigureCreate:
         assert fig.caption == "Stress-strain curve"
 
     def test_page_number_minimum(self) -> None:
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="page_number"):
             ExtractionFigureCreate(
                 job_id=uuid4(),
                 page_number=0,
@@ -184,7 +184,7 @@ class TestExtractionFigureRead:
         assert fig.figure_type == "plot"
 
     def test_confidence_bounds(self) -> None:
-        with pytest.raises(Exception):
+        with pytest.raises(Exception, match="confidence"):
             ExtractionFigureRead(
                 id=uuid4(),
                 job_id=uuid4(),
@@ -351,7 +351,7 @@ class TestKGNode:
             node_type="material",
             name="UO2",
         )
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             node.name = "changed"
 
 
@@ -390,13 +390,18 @@ class TestKGEdge:
             target_node_id=uuid4(),
             relationship_type=RelationshipType.HAS_PROPERTY,
         )
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             edge.weight = 1.0
 
 
 class TestSyncResult:
     def test_success(self) -> None:
-        result = SyncResult(corpus_id="corp-1", mode="full", nodes_synced=10, edges_synced=5)
+        result = SyncResult(
+            corpus_id="corp-1",
+            mode="full",
+            nodes_synced=10,
+            edges_synced=5,
+        )
         assert result.success is True
         assert result.total_synced == 15
 
@@ -416,7 +421,7 @@ class TestSyncResult:
 
     def test_frozen(self) -> None:
         result = SyncResult(corpus_id="corp-1", mode="full")
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             result.nodes_synced = 5
 
 

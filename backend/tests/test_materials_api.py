@@ -179,10 +179,13 @@ class TestGetSource:
     async def test_not_found_raises_404(self) -> None:
         mock_pool = AsyncMock()
         mock_pool.fetchrow = AsyncMock(return_value=None)
-        with patch(
-            "nfm_backend.api.v1.materials.get_pool",
-            return_value=mock_pool,
-        ), pytest.raises(HTTPException, match="not found"):
+        with (
+            patch(
+                "nfm_backend.api.v1.materials.get_pool",
+                return_value=mock_pool,
+            ),
+            pytest.raises(HTTPException, match="not found"),
+        ):
             await get_source(uuid4())
 
 
@@ -266,10 +269,13 @@ class TestGetMaterial:
     async def test_not_found_raises_404(self) -> None:
         mock_pool = AsyncMock()
         mock_pool.fetchrow = AsyncMock(return_value=None)
-        with patch(
-            "nfm_backend.api.v1.materials.get_pool",
-            return_value=mock_pool,
-        ), pytest.raises(HTTPException, match="not found"):
+        with (
+            patch(
+                "nfm_backend.api.v1.materials.get_pool",
+                return_value=mock_pool,
+            ),
+            pytest.raises(HTTPException, match="not found"),
+        ):
             await get_material(uuid4())
 
 
@@ -355,8 +361,11 @@ class TestGetProperty:
     async def test_not_found_raises_404(self) -> None:
         mock_pool = AsyncMock()
         mock_pool.fetchrow = AsyncMock(return_value=None)
-        with patch(
-            "nfm_backend.api.v1.materials.get_pool",
-            return_value=mock_pool,
-        ), pytest.raises(HTTPException, match="not found"):
+        with (
+            patch(
+                "nfm_backend.api.v1.materials.get_pool",
+                return_value=mock_pool,
+            ),
+            pytest.raises(HTTPException, match="not found"),
+        ):
             await get_property(uuid4())
