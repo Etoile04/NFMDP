@@ -16,6 +16,7 @@ async def lifespan(app: FastAPI):
     """Manage startup/shutdown lifecycle."""
     yield
     from nfm_backend.services.database import close_pool
+
     await close_pool()
 
 
@@ -27,7 +28,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(
         title="NFM Extraction API",
         version="4.0.0",
-        description="Multimodal extraction pipeline for nuclear fuel material documents",
+        description=(
+            "Multimodal extraction pipeline for nuclear fuel material documents"
+        ),
         docs_url="/api/docs",
         openapi_url="/api/openapi.json",
         lifespan=lifespan,

@@ -13,7 +13,11 @@ async def get_pool() -> asyncpg.Pool:
     if _pool is None:
         from nfm_backend.config import settings
 
-        _pool = await asyncpg.create_pool(settings.database_url, min_size=2, max_size=10)
+        _pool = await asyncpg.create_pool(
+            settings.database_url,
+            min_size=2,
+            max_size=10,
+        )
     return _pool
 
 

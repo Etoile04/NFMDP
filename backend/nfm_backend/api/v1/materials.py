@@ -29,11 +29,12 @@ def _record_to_dict(record: Any, columns: list[str]) -> dict[str, Any]:
 
 # -- GET /api/v1/sources --
 
+
 @router.get("/sources", response_model=PaginatedResponse)
 async def list_sources(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
-    material_id: UUID | None = Query(None),
+    material_id: UUID | None = Query(None),  # noqa: B008
 ) -> PaginatedResponse:
     """List data sources with optional material filter."""
     pool = await get_pool()
@@ -41,7 +42,9 @@ async def list_sources(
     where_clause = ""
     params: list[Any] = [limit, (page - 1) * limit]
     if material_id is not None:
-        where_clause = "WHERE ds.id IN (SELECT data_source_id FROM data_source_authors WHERE TRUE)"
+        where_clause = (
+            "WHERE ds.id IN (SELECT data_source_id FROM data_source_authors WHERE TRUE)"
+        )
         params = [limit, (page - 1) * limit, material_id]
 
     rows = await pool.fetch(
@@ -61,7 +64,16 @@ async def list_sources(
         return PaginatedResponse(items=[], total=0, page=page, limit=limit)
 
     total = rows[0]["total"]
-    columns = ["id", "title", "doi", "journal", "year", "source_type", "url", "created_at"]
+    columns = [
+        "id",
+        "title",
+        "doi",
+        "journal",
+        "year",
+        "source_type",
+        "url",
+        "created_at",
+    ]
     items = [_record_to_dict(r, columns) for r in rows]
 
     return PaginatedResponse(items=items, total=total, page=page, limit=limit)
@@ -84,6 +96,7 @@ async def get_source(source_id: UUID) -> DataSource:
 
 
 # -- GET /api/v1/materials --
+
 
 @router.get("/materials", response_model=PaginatedResponse)
 async def list_materials(
@@ -124,7 +137,9 @@ async def list_materials(
         ORDER BY m.name
         LIMIT $1 OFFSET $2
         """,
-        limit, (page - 1) * limit, *params,
+        limit,
+        (page - 1) * limit,
+        *params,
     )
 
     if not rows:
@@ -132,9 +147,17 @@ async def list_materials(
 
     total = rows[0]["total"]
     columns = [
-        "id", "name", "name_zh", "chemical_formula", "material_type",
-        "crystal_structure", "density_kg_m3", "melting_point_k",
-        "description", "category_id", "created_at",
+        "id",
+        "name",
+        "name_zh",
+        "chemical_formula",
+        "material_type",
+        "crystal_structure",
+        "density_kg_m3",
+        "melting_point_k",
+        "description",
+        "category_id",
+        "created_at",
     ]
     items = [_record_to_dict(r, columns) for r in rows]
 
@@ -161,12 +184,13 @@ async def get_material(material_id: UUID) -> Material:
 
 # -- GET /api/v1/properties --
 
+
 @router.get("/properties", response_model=PaginatedResponse)
 async def list_properties(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
-    material_id: UUID | None = Query(None),
-    property_type: str | None = Query(None),
+    material_id: UUID | None = Query(None),  # noqa: B008
+    property_type: str | None = Query(None),  # noqa: B008
 ) -> PaginatedResponse:
     """List property measurements with optional filters."""
     pool = await get_pool()
@@ -202,7 +226,9 @@ async def list_properties(
         ORDER BY pt.name, pm.value_scalar
         LIMIT $1 OFFSET $2
         """,
-        limit, (page - 1) * limit, *params,
+        limit,
+        (page - 1) * limit,
+        *params,
     )
 
     if not rows:
@@ -210,10 +236,22 @@ async def list_properties(
 
     total = rows[0]["total"]
     columns = [
-        "id", "property_type_id", "material_id", "dataset_id",
-        "data_source_id", "value_type", "value_scalar", "unit",
-        "uncertainty_value", "uncertainty_type", "conditions",
-        "confidence", "method", "notes", "review_status", "created_at",
+        "id",
+        "property_type_id",
+        "material_id",
+        "dataset_id",
+        "data_source_id",
+        "value_type",
+        "value_scalar",
+        "unit",
+        "uncertainty_value",
+        "uncertainty_type",
+        "conditions",
+        "confidence",
+        "method",
+        "notes",
+        "review_status",
+        "created_at",
     ]
     items = [_record_to_dict(r, columns) for r in rows]
 

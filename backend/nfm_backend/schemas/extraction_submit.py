@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 
-class FigureType(str, Enum):
+class FigureType(StrEnum):
     """Types of figures to extract from documents."""
 
     CHART = "chart"
@@ -21,7 +21,7 @@ class FigureType(str, Enum):
     OTHER = "other"
 
 
-class ConflictStrategy(str, Enum):
+class ConflictStrategy(StrEnum):
     """Strategy for resolving conflicts between extraction methods."""
 
     VLM_PREFERRED = "vlm_preferred"
@@ -89,7 +89,9 @@ class ExtractionSubmitRequest(BaseModel):
 class ExtractionSubmitResponse(BaseModel):
     """Response body for POST /api/v4/extraction/submit."""
 
-    job_id: str = Field(description="Unique job identifier for tracking extraction progress.")
+    job_id: str = Field(
+        description="Unique job identifier for tracking extraction progress.",
+    )
     status: Literal["queued", "processing"] = Field(
         description="Current status of the extraction job.",
     )

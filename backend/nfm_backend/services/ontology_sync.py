@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 AGE_SESSION_INIT = text(
-    "LOAD age; SET search_path TO ag_catalog, \"$current_schema\", public"
+    'LOAD age; SET search_path TO ag_catalog, "$current_schema", public'
 )
 
 # ---------------------------------------------------------------------------
@@ -75,13 +75,9 @@ _CREATE_EDGE = text(
     """
 )
 
-_DROP_GRAPH = text(
-    "SELECT drop_graph('ontology_{graph_name}', true);"
-)
+_DROP_GRAPH = text("SELECT drop_graph('ontology_{graph_name}', true);")
 
-_CREATE_GRAPH = text(
-    "SELECT create_graph('ontology_{graph_name}');"
-)
+_CREATE_GRAPH = text("SELECT create_graph('ontology_{graph_name}');")
 
 _MARK_NODE_SYNCED = text(
     """
@@ -175,6 +171,7 @@ _GRAPH_EXISTS_QUERY = text(
 # Row → frozen model helpers
 # ---------------------------------------------------------------------------
 
+
 def _row_to_kg_node(row: Any) -> KGNode:
     """Convert a database row to an immutable KGNode."""
     return KGNode(
@@ -211,14 +208,14 @@ def _row_to_kg_edge(row: Any) -> KGEdge:
 # Internal sync helpers
 # ---------------------------------------------------------------------------
 
+
 def _ensure_age_session(conn: Connection) -> None:
     """Ensure AGE extension is loaded and search path is set."""
     try:
         conn.execute(AGE_SESSION_INIT)
     except OperationalError as exc:
         raise RuntimeError(
-            "Failed to initialize AGE session. "
-            "Ensure the AGE extension is installed."
+            "Failed to initialize AGE session. Ensure the AGE extension is installed."
         ) from exc
 
 
@@ -259,10 +256,12 @@ def _sync_edge(conn: Connection, edge: KGEdge, graph_name: str) -> None:
         "label": edge.label,
         "weight": edge.weight,
     }
-    stmt = text(_CREATE_EDGE.text.format(
-        graph_name=graph_name,
-        rel_type=rel_type,
-    ))
+    stmt = text(
+        _CREATE_EDGE.text.format(
+            graph_name=graph_name,
+            rel_type=rel_type,
+        )
+    )
     conn.execute(stmt, {"params": params})
 
     now = datetime.now(UTC)
@@ -275,6 +274,7 @@ def _sync_edge(conn: Connection, edge: KGEdge, graph_name: str) -> None:
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
+
 
 def sync_corpus_to_graph(
     conn: Connection,
@@ -319,13 +319,10 @@ def sync_corpus_to_graph(
             ).fetchall()
         elif mode == "incremental":
             # Graph must already exist for incremental sync
-            exists = conn.execute(
-                _GRAPH_EXISTS_QUERY, {"graph_name": gname}
-            ).scalar()
+            exists = conn.execute(_GRAPH_EXISTS_QUERY, {"graph_name": gname}).scalar()
             if not exists:
                 raise RuntimeError(
-                    f"Graph {gname} does not exist. "
-                    f"Run full sync first."
+                    f"Graph {gname} does not exist. Run full sync first."
                 )
 
             node_rows = conn.execute(
@@ -336,8 +333,7 @@ def sync_corpus_to_graph(
             ).fetchall()
         else:
             raise ValueError(
-                f"Invalid sync mode: {mode!r}. "
-                f"Expected 'full' or 'incremental'."
+                f"Invalid sync mode: {mode!r}. Expected 'full' or 'incremental'."
             )
 
         # Handle empty corpus gracefully
@@ -361,9 +357,7 @@ def sync_corpus_to_graph(
                 nodes_synced += 1
             except (DBAPIError, RuntimeError) as exc:
                 nodes_failed += 1
-                errors.append(
-                    f"Node {getattr(row, 'id', '?')}: {exc}"
-                )
+                errors.append(f"Node {getattr(row, 'id', '?')}: {exc}")
                 logger.warning("Failed to sync node %s: %s", row.id, exc)
 
         # Sync edges
@@ -374,9 +368,7 @@ def sync_corpus_to_graph(
                 edges_synced += 1
             except (DBAPIError, RuntimeError) as exc:
                 edges_failed += 1
-                errors.append(
-                    f"Edge {getattr(row, 'id', '?')}: {exc}"
-                )
+                errors.append(f"Edge {getattr(row, 'id', '?')}: {exc}")
                 logger.warning("Failed to sync edge %s: %s", row.id, exc)
 
     except Exception as exc:
@@ -470,17 +462,11 @@ def get_sync_status(conn: Connection, corpus_id: str) -> SyncStatus:
     _ensure_age_session(conn)
     gname = _graph_name(corpus_id)
 
-    graph_exists = conn.execute(
-        _GRAPH_EXISTS_QUERY, {"graph_name": gname}
-    ).scalar()
+    graph_exists = conn.execute(_GRAPH_EXISTS_QUERY, {"graph_name": gname}).scalar()
 
-    node_row = conn.execute(
-        _COUNT_SYNCED_NODES, {"corpus_id": corpus_id}
-    ).fetchone()
+    node_row = conn.execute(_COUNT_SYNCED_NODES, {"corpus_id": corpus_id}).fetchone()
 
-    edge_row = conn.execute(
-        _COUNT_SYNCED_EDGES, {"corpus_id": corpus_id}
-    ).fetchone()
+    edge_row = conn.execute(_COUNT_SYNCED_EDGES, {"corpus_id": corpus_id}).fetchone()
 
     return SyncStatus(
         corpus_id=corpus_id,

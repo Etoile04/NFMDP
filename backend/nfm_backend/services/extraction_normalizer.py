@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 # ---------------------------------------------------------------------------
 # Conversion factors to SI
 # ---------------------------------------------------------------------------
@@ -83,10 +82,7 @@ def _convert_temperature(value: float, unit: str) -> float:
 
 def _convert_pressure_like(value: float, unit: str, property_type: str) -> float:
     """Convert pressure or stress to Pascal."""
-    if property_type == "stress":
-        factors = _STRESS_FACTORS
-    else:
-        factors = _PRESSURE_FACTORS
+    factors = _STRESS_FACTORS if property_type == "stress" else _PRESSURE_FACTORS
 
     if unit not in factors:
         raise ValueError(f"Unsupported unit '{unit}' for {property_type}")
@@ -113,9 +109,7 @@ def normalize_unit(value: float, unit: str, property_type: str) -> float:
         return value
     if property_type == "diffusion_coefficient":
         if unit not in _DIFFUSION_UNITS:
-            raise ValueError(
-                f"Unsupported unit '{unit}' for diffusion_coefficient"
-            )
+            raise ValueError(f"Unsupported unit '{unit}' for diffusion_coefficient")
         return value
     raise ValueError(f"Unsupported property type '{property_type}'")
 

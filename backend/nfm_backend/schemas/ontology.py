@@ -19,6 +19,7 @@ from uuid import UUID
 # Relationship type enum — maps to AGE edge labels
 # ---------------------------------------------------------------------------
 
+
 class RelationshipType(StrEnum):
     """Typed edge labels for AGE graph relationships."""
 
@@ -37,6 +38,7 @@ class RelationshipType(StrEnum):
 # ---------------------------------------------------------------------------
 # Relational source-of-truth models (kg_nodes / kg_edges)
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class KGNode:
@@ -85,6 +87,7 @@ class KGEdge:
 # ---------------------------------------------------------------------------
 # Sync result types
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class SyncResult:

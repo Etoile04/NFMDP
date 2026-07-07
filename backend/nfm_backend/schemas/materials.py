@@ -8,8 +8,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-
 # -- Data Sources --
+
 
 class DataSourceBase(BaseModel):
     title: str
@@ -28,6 +28,7 @@ class DataSource(DataSourceBase):
 
 
 # -- Materials --
+
 
 class MaterialBase(BaseModel):
     name: str
@@ -49,6 +50,7 @@ class Material(MaterialBase):
 
 
 # -- Property Measurements --
+
 
 class PropertyMeasurementBase(BaseModel):
     value_scalar: float | None = None
@@ -74,6 +76,7 @@ class PropertyMeasurement(PropertyMeasurementBase):
 
 
 # -- Paginated response envelope --
+
 
 class PaginatedResponse(BaseModel):
     items: list[Any]

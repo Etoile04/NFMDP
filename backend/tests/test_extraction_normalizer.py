@@ -16,7 +16,6 @@ from nfm_backend.services.extraction_normalizer import (
     validate_value,
 )
 
-
 # ---------------------------------------------------------------------------
 # Unit normalization — temperature
 # ---------------------------------------------------------------------------
@@ -53,9 +52,7 @@ class TestNormalizePressure:
         assert normalize_unit(1.0, "MPa", "pressure") == pytest.approx(1_000_000.0)
 
     def test_gpa_to_pa(self) -> None:
-        assert normalize_unit(1.0, "GPa", "pressure") == pytest.approx(
-            1_000_000_000.0
-        )
+        assert normalize_unit(1.0, "GPa", "pressure") == pytest.approx(1_000_000_000.0)
 
     def test_bar_to_pa(self) -> None:
         assert normalize_unit(1.0, "bar", "pressure") == pytest.approx(100_000.0)
@@ -66,9 +63,7 @@ class TestNormalizePressure:
         )
 
     def test_pa_passthrough(self) -> None:
-        assert normalize_unit(101_325.0, "Pa", "pressure") == pytest.approx(
-            101_325.0
-        )
+        assert normalize_unit(101_325.0, "Pa", "pressure") == pytest.approx(101_325.0)
 
 
 # ---------------------------------------------------------------------------
@@ -80,9 +75,7 @@ class TestNormalizeStress:
     """Stress conversions to Pascal (SI)."""
 
     def test_mpa_to_pa(self) -> None:
-        assert normalize_unit(250.0, "MPa", "stress") == pytest.approx(
-            250_000_000.0
-        )
+        assert normalize_unit(250.0, "MPa", "stress") == pytest.approx(250_000_000.0)
 
     def test_ksi_to_pa(self) -> None:
         assert normalize_unit(1.0, "ksi", "stress") == pytest.approx(
@@ -99,14 +92,14 @@ class TestNormalizeThermalConductivity:
     """Thermal conductivity to W/(m·K)."""
 
     def test_w_mk_passthrough(self) -> None:
-        assert normalize_unit(
-            16.0, "W/(m·K)", "thermal_conductivity"
-        ) == pytest.approx(16.0)
+        assert normalize_unit(16.0, "W/(m·K)", "thermal_conductivity") == pytest.approx(
+            16.0
+        )
 
     def test_w_mk_alias(self) -> None:
-        assert normalize_unit(
-            16.0, "W/mK", "thermal_conductivity"
-        ) == pytest.approx(16.0)
+        assert normalize_unit(16.0, "W/mK", "thermal_conductivity") == pytest.approx(
+            16.0
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -118,9 +111,9 @@ class TestNormalizeDiffusionCoefficient:
     """Diffusion coefficient to m²/s."""
 
     def test_m2_s_passthrough(self) -> None:
-        assert normalize_unit(
-            1e-12, "m²/s", "diffusion_coefficient"
-        ) == pytest.approx(1e-12)
+        assert normalize_unit(1e-12, "m²/s", "diffusion_coefficient") == pytest.approx(
+            1e-12
+        )
 
 
 # ---------------------------------------------------------------------------
