@@ -7,6 +7,7 @@ that serve the seeded literature database.
 from __future__ import annotations
 
 import json
+from contextlib import suppress
 from typing import Any
 from uuid import UUID
 
@@ -35,10 +36,8 @@ def _record_to_dict(record: Any, columns: list[str]) -> dict[str, Any]:
     for col in columns:
         value = record[col]
         if col in _JSONB_COLUMNS and isinstance(value, str):
-            try:
+            with suppress(json.JSONDecodeError, TypeError):
                 value = json.loads(value)
-            except (json.JSONDecodeError, TypeError):
-                pass
         result[col] = value
     return result
 
@@ -291,9 +290,21 @@ async def get_property(measurement_id: UUID) -> PropertyMeasurement:
     if row is None:
         raise HTTPException(status_code=404, detail="Property measurement not found")
     columns = [
-        "id", "property_type_id", "material_id", "dataset_id",
-        "data_source_id", "value_type", "value_scalar", "unit",
-        "uncertainty_value", "uncertainty_type", "conditions",
-        "confidence", "method", "notes", "review_status", "created_at",
+        "id",
+        "property_type_id",
+        "material_id",
+        "dataset_id",
+        "data_source_id",
+        "value_type",
+        "value_scalar",
+        "unit",
+        "uncertainty_value",
+        "uncertainty_type",
+        "conditions",
+        "confidence",
+        "method",
+        "notes",
+        "review_status",
+        "created_at",
     ]
     return PropertyMeasurement(**_record_to_dict(row, columns))
