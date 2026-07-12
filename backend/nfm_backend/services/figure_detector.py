@@ -31,14 +31,16 @@ _DEFAULT_IOU_THRESHOLD = 0.5
 _DETECTION_PROMPT = """\
 Analyze this document page and identify all figures (plots, charts, tables, \
 micrographs, diagrams, schematics). For each figure, provide:
-1. The figure type (plot, table, micrograph, diagram, chart, schematic, photograph, other)
+1. The figure type (plot, table, micrograph, diagram, chart, \
+schematic, photograph, other)
 2. The bounding box as {x, y, width, height} in pixels
 3. A confidence score (0-1)
 4. The caption text if visible
 5. The figure label if visible (e.g. "Fig. 3")
 
 Return ONLY a JSON object with this structure:
-{"figures": [{"type": "...", "bounding_box": {"x": ..., "y": ..., "width": ..., "height": ...}, \
+{"figures": [{"type": "...", "bounding_box": {"x": ..., "y": ..., "width": ...,\
+"height": ...}, \
 "confidence": ..., "caption": "...", "label": "..."}]}
 
 If no figures are found, return {"figures": []}.

@@ -11,7 +11,6 @@ from typing import Any
 
 from pydantic import BaseModel, Field
 
-
 # ---------------------------------------------------------------------------
 # FigureType
 # ---------------------------------------------------------------------------
@@ -75,8 +74,7 @@ class BoundingBox(BaseModel):
         ``(x + width, y + height)`` is **not** contained.
         """
         return (
-            self.x <= px < self.x + self.width
-            and self.y <= py < self.y + self.height
+            self.x <= px < self.x + self.width and self.y <= py < self.y + self.height
         )
 
     def iou(self, other: BoundingBox) -> float:
@@ -170,7 +168,8 @@ class FigureDetectionResult(BaseModel):
         return types
 
     def high_confidence_figures(
-        self, threshold: float = 0.8,
+        self,
+        threshold: float = 0.8,
     ) -> list[DetectedFigure]:
         """Return figures with confidence >= *threshold*."""
         return [f for f in self.figures if f.confidence >= threshold]

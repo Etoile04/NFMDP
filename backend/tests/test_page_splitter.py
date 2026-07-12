@@ -7,15 +7,12 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from nfm_backend.services.page_splitter import (
     PageImage,
     convert_pdf_to_images,
     get_page_count,
     split_pdf_to_images,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -97,7 +94,10 @@ class TestConvertPdfToImages:
             )
 
         mock_conv.assert_called_once_with(
-            "/fake/doc.pdf", dpi=200, first_page=2, last_page=4,
+            "/fake/doc.pdf",
+            dpi=200,
+            first_page=2,
+            last_page=4,
         )
         assert len(result) == 5  # pdf2image returns all converted pages
         # Verify page numbering starts at first_page
@@ -121,7 +121,10 @@ class TestConvertPdfToImages:
             result = convert_pdf_to_images("/fake/doc.pdf")
 
         mock_conv.assert_called_once_with(
-            "/fake/doc.pdf", dpi=200, first_page=None, last_page=None,
+            "/fake/doc.pdf",
+            dpi=200,
+            first_page=None,
+            last_page=None,
         )
         assert len(result) == 1
 
@@ -176,8 +179,10 @@ class TestPageImage:
 class TestSplitPdfToImages:
     def test_splits_full_document(self) -> None:
         mock_images = [_make_mock_pil_image() for _ in range(4)]
-        with patch("nfm_backend.services.page_splitter.Path") as mock_path, \
-             patch("nfm_backend.services.page_splitter.convert_from_path") as mock_conv:
+        with (
+            patch("nfm_backend.services.page_splitter.Path") as mock_path,
+            patch("nfm_backend.services.page_splitter.convert_from_path") as mock_conv,
+        ):
             mock_path.return_value.exists.return_value = True
             mock_conv.return_value = mock_images
             result = split_pdf_to_images("/fake/doc.pdf")
@@ -185,8 +190,10 @@ class TestSplitPdfToImages:
         assert len(result) == 4
 
     def test_splits_with_page_range(self) -> None:
-        with patch("nfm_backend.services.page_splitter.Path") as mock_path, \
-             patch("nfm_backend.services.page_splitter.convert_from_path") as mock_conv:
+        with (
+            patch("nfm_backend.services.page_splitter.Path") as mock_path,
+            patch("nfm_backend.services.page_splitter.convert_from_path") as mock_conv,
+        ):
             mock_path.return_value.exists.return_value = True
             mock_conv.return_value = [_make_mock_pil_image()]
             result = split_pdf_to_images(

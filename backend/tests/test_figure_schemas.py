@@ -6,13 +6,14 @@ TDD RED phase — tests for BoundingBox, DetectedFigure, FigureDetectionResult.
 from __future__ import annotations
 
 import pytest
+from pydantic import ValidationError
+
 from nfm_backend.schemas.figure import (
     BoundingBox,
     DetectedFigure,
     FigureDetectionResult,
     FigureType,
 )
-from pydantic import ValidationError
 
 # ---------------------------------------------------------------------------
 # BoundingBox

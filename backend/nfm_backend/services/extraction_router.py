@@ -14,11 +14,13 @@ from uuid import uuid4
 
 from nfm_backend.schemas.extraction_submit import (
     FigureType as SubmitFigureType,
+)
+from nfm_backend.schemas.extraction_submit import (
     MultimodalOptions,
 )
 from nfm_backend.schemas.figure import FigureDetectionResult
 from nfm_backend.services.figure_detector import FigureDetector
-from nfm_backend.services.page_splitter import PageImage, split_pdf_to_images
+from nfm_backend.services.page_splitter import split_pdf_to_images
 
 logger = logging.getLogger(__name__)
 
@@ -110,7 +112,9 @@ class ExtractionRouter:
 
         # Step 1: Split PDF into page images
         page_images = split_pdf_to_images(
-            pdf_path, dpi=self._dpi, pages=pages,
+            pdf_path,
+            dpi=self._dpi,
+            pages=pages,
         )
 
         if not page_images:
@@ -127,7 +131,8 @@ class ExtractionRouter:
 
         # Step 3: Filter by requested figure types if specified
         filtered_figures = self._apply_type_filter(
-            detection_result, opts,
+            detection_result,
+            opts,
         )
 
         if len(filtered_figures) < detection_result.total_figures:
@@ -172,6 +177,4 @@ class ExtractionRouter:
             else:
                 return result.figures  # None means "all types"
 
-        return [
-            f for f in result.figures if f.figure_type.value in allowed
-        ]
+        return [f for f in result.figures if f.figure_type.value in allowed]

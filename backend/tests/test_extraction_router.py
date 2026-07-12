@@ -12,6 +12,8 @@ import pytest
 
 from nfm_backend.schemas.extraction_submit import (
     FigureType as SubmitFigureType,
+)
+from nfm_backend.schemas.extraction_submit import (
     MultimodalOptions,
 )
 from nfm_backend.services.extraction_router import (
@@ -33,12 +35,14 @@ class TestExtractionRouter:
     async def test_run_figure_detection_success(self) -> None:
         pages = [_mock_page_image(i) for i in range(1, 3)]
 
-        with patch(
-            "nfm_backend.services.extraction_router.split_pdf_to_images",
-        ) as mock_split, \
-             patch(
-                 "nfm_backend.services.extraction_router.FigureDetector",
-        ) as mock_det_cls:
+        with (
+            patch(
+                "nfm_backend.services.extraction_router.split_pdf_to_images",
+            ) as mock_split,
+            patch(
+                "nfm_backend.services.extraction_router.FigureDetector",
+            ) as mock_det_cls,
+        ):
             mock_split.return_value = pages
             mock_detector = MagicMock()
             mock_detector.detect = AsyncMock(
@@ -81,12 +85,14 @@ class TestExtractionRouter:
         fig_plot = MagicMock(figure_type=MagicMock(value="plot"))
         fig_table = MagicMock(figure_type=MagicMock(value="table"))
 
-        with patch(
-            "nfm_backend.services.extraction_router.split_pdf_to_images",
-        ) as mock_split, \
-             patch(
-                 "nfm_backend.services.extraction_router.FigureDetector",
-        ) as mock_det_cls:
+        with (
+            patch(
+                "nfm_backend.services.extraction_router.split_pdf_to_images",
+            ) as mock_split,
+            patch(
+                "nfm_backend.services.extraction_router.FigureDetector",
+            ) as mock_det_cls,
+        ):
             mock_split.return_value = pages
             mock_detector = MagicMock()
             mock_detector.detect = AsyncMock(
@@ -114,17 +120,21 @@ class TestExtractionRouter:
     async def test_run_with_specific_pages(self) -> None:
         pages = [_mock_page_image(2), _mock_page_image(5)]
 
-        with patch(
-            "nfm_backend.services.extraction_router.split_pdf_to_images",
-        ) as mock_split, \
-             patch(
-                 "nfm_backend.services.extraction_router.FigureDetector",
-        ) as mock_det_cls:
+        with (
+            patch(
+                "nfm_backend.services.extraction_router.split_pdf_to_images",
+            ) as mock_split,
+            patch(
+                "nfm_backend.services.extraction_router.FigureDetector",
+            ) as mock_det_cls,
+        ):
             mock_split.return_value = pages
             mock_detector = MagicMock()
             mock_detector.detect = AsyncMock(
                 return_value=MagicMock(
-                    page_count=2, total_figures=0, figures=[],
+                    page_count=2,
+                    total_figures=0,
+                    figures=[],
                 ),
             )
             mock_det_cls.return_value = mock_detector
@@ -136,7 +146,9 @@ class TestExtractionRouter:
             )
 
         mock_split.assert_called_once_with(
-            "/fake/doc.pdf", dpi=200, pages=[2, 5],
+            "/fake/doc.pdf",
+            dpi=200,
+            pages=[2, 5],
         )
         assert result.page_count == 2
 

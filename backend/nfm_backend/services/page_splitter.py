@@ -148,7 +148,10 @@ def split_pdf_to_images(
         result: list[PageImage] = []
         for page_num in sorted(set(pages)):
             page_images = convert_pdf_to_images(
-                pdf_path, dpi=dpi, first_page=page_num, last_page=page_num,
+                pdf_path,
+                dpi=dpi,
+                first_page=page_num,
+                last_page=page_num,
             )
             result.extend(page_images)
         return result

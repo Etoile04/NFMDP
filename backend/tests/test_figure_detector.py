@@ -14,7 +14,6 @@ import pytest
 from nfm_backend.schemas.figure import (
     BoundingBox,
     DetectedFigure,
-    FigureDetectionResult,
     FigureType,
 )
 from nfm_backend.services.figure_detector import (
@@ -26,14 +25,15 @@ from nfm_backend.services.figure_detector import (
     parse_vlm_detection_response,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
 
 def _mock_page_image(
-    page_number: int = 1, width: int = 612, height: int = 792,
+    page_number: int = 1,
+    width: int = 612,
+    height: int = 792,
 ) -> MagicMock:
     """Create a mock PageImage."""
     img = MagicMock()
@@ -86,13 +86,17 @@ class TestParseVlmDetectionResponse:
         assert figures[0].confidence == 0.92
         assert figures[0].caption == "Stress-strain curve for UO2 at 800°C"
         assert figures[0].bounding_box == BoundingBox(
-            x=50, y=100, width=400, height=300,
+            x=50,
+            y=100,
+            width=400,
+            height=300,
         )
         assert figures[0].page_number == 1
 
     def test_parses_empty_response(self) -> None:
         figures = parse_vlm_detection_response(
-            {"figures": []}, page_number=1,
+            {"figures": []},
+            page_number=1,
         )
         assert figures == []
 
@@ -157,7 +161,8 @@ class TestParseVlmDetectionResponse:
         assert figures == []
 
         figures = parse_vlm_detection_response(
-            {"unexpected": "structure"}, page_number=1,
+            {"unexpected": "structure"},
+            page_number=1,
         )
         assert figures == []
 
@@ -169,29 +174,44 @@ class TestParseVlmDetectionResponse:
 
 class TestClassifyFigureType:
     def test_classifies_plot(self) -> None:
-        assert classify_figure_type(
-            "A stress-strain curve showing yield point",
-        ) == FigureType.PLOT
+        assert (
+            classify_figure_type(
+                "A stress-strain curve showing yield point",
+            )
+            == FigureType.PLOT
+        )
 
     def test_classifies_table(self) -> None:
-        assert classify_figure_type(
-            "Table 1: Material properties of UO2",
-        ) == FigureType.TABLE
+        assert (
+            classify_figure_type(
+                "Table 1: Material properties of UO2",
+            )
+            == FigureType.TABLE
+        )
 
     def test_classifies_micrograph(self) -> None:
-        assert classify_figure_type(
-            "SEM image of the microstructure",
-        ) == FigureType.MICROGRAPH
+        assert (
+            classify_figure_type(
+                "SEM image of the microstructure",
+            )
+            == FigureType.MICROGRAPH
+        )
 
     def test_classifies_diagram(self) -> None:
-        assert classify_figure_type(
-            "Schematic of the reactor vessel",
-        ) == FigureType.DIAGRAM
+        assert (
+            classify_figure_type(
+                "Schematic of the reactor vessel",
+            )
+            == FigureType.DIAGRAM
+        )
 
     def test_classifies_chart(self) -> None:
-        assert classify_figure_type(
-            "Bar chart comparing thermal conductivity",
-        ) == FigureType.CHART
+        assert (
+            classify_figure_type(
+                "Bar chart comparing thermal conductivity",
+            )
+            == FigureType.CHART
+        )
 
     def test_classifies_unknown_as_other(self) -> None:
         assert classify_figure_type("Some random text") == FigureType.OTHER
@@ -316,7 +336,8 @@ class TestDetectFiguresOnPage:
         ) as mock_vlm:
             mock_vlm.return_value = mock_response
             figures = await detect_figures_on_page(
-                page, confidence_threshold=0.5,
+                page,
+                confidence_threshold=0.5,
             )
 
         assert len(figures) == 2
@@ -368,7 +389,8 @@ class TestDetectFiguresOnPage:
         ) as mock_vlm:
             mock_vlm.return_value = mock_response
             figures = await detect_figures_on_page(
-                page, confidence_threshold=0.5,
+                page,
+                confidence_threshold=0.5,
             )
 
         assert len(figures) == 1
