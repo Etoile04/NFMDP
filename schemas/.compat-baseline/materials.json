@@ -1,0 +1,209 @@
+{
+  "module_name": "materials",
+  "classes": {
+    "DataSourceBase": {
+      "title": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "doi": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "journal": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "year": {
+        "field_type": "int | None",
+        "required": false,
+        "default": "None"
+      },
+      "source_type": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "url": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "DataSource": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "created_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "MaterialBase": {
+      "name": {
+        "field_type": "str",
+        "required": true,
+        "default": null
+      },
+      "name_zh": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "chemical_formula": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "material_type": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "crystal_structure": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "density_kg_m3": {
+        "field_type": "float | None",
+        "required": false,
+        "default": "None"
+      },
+      "melting_point_k": {
+        "field_type": "float | None",
+        "required": false,
+        "default": "None"
+      },
+      "description": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "Material": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "category_id": {
+        "field_type": "UUID | None",
+        "required": false,
+        "default": "None"
+      },
+      "created_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "PropertyMeasurementBase": {
+      "value_scalar": {
+        "field_type": "float | None",
+        "required": false,
+        "default": "None"
+      },
+      "unit": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "uncertainty_value": {
+        "field_type": "float | None",
+        "required": false,
+        "default": "None"
+      },
+      "uncertainty_type": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "conditions": {
+        "field_type": "dict[str, Any] | None",
+        "required": false,
+        "default": "None"
+      },
+      "confidence": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "method": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "notes": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      },
+      "review_status": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "PropertyMeasurement": {
+      "id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "property_type_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "material_id": {
+        "field_type": "UUID",
+        "required": true,
+        "default": null
+      },
+      "dataset_id": {
+        "field_type": "UUID | None",
+        "required": false,
+        "default": "None"
+      },
+      "data_source_id": {
+        "field_type": "UUID | None",
+        "required": false,
+        "default": "None"
+      },
+      "created_at": {
+        "field_type": "datetime | None",
+        "required": false,
+        "default": "None"
+      }
+    },
+    "PaginatedResponse": {
+      "items": {
+        "field_type": "list[Any]",
+        "required": true,
+        "default": null
+      },
+      "total": {
+        "field_type": "int",
+        "required": true,
+        "default": null
+      },
+      "page": {
+        "field_type": "int",
+        "required": true,
+        "default": null
+      },
+      "limit": {
+        "field_type": "int",
+        "required": true,
+        "default": null
+      }
+    }
+  }
+}

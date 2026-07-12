@@ -1,0 +1,124 @@
+{
+  "paper_id": "SYNTH-DIA-004",
+  "figure_type": "diagram",
+  "ground_truth": {
+    "figure_type": "diagram",
+    "extracted_data": {
+      "property": "TRISO_particle",
+      "value": "5 components",
+      "unit": null,
+      "material": null,
+      "condition": null
+    },
+    "bounding_boxes": [
+      {
+        "x1": 30,
+        "y1": 30,
+        "x2": 570,
+        "y2": 450,
+        "label": "diagram_area",
+        "confidence": 0.91
+      },
+      {
+        "x1": 100,
+        "y1": 150,
+        "x2": 200,
+        "y2": 250,
+        "label": "component_0",
+        "confidence": 0.88
+      },
+      {
+        "x1": 220,
+        "y1": 150,
+        "x2": 320,
+        "y2": 250,
+        "label": "component_1",
+        "confidence": 0.88
+      },
+      {
+        "x1": 340,
+        "y1": 150,
+        "x2": 440,
+        "y2": 250,
+        "label": "component_2",
+        "confidence": 0.88
+      },
+      {
+        "x1": 460,
+        "y1": 150,
+        "x2": 560,
+        "y2": 250,
+        "label": "component_3",
+        "confidence": 0.88
+      },
+      {
+        "x1": 580,
+        "y1": 150,
+        "x2": 680,
+        "y2": 250,
+        "label": "component_4",
+        "confidence": 0.88
+      }
+    ]
+  },
+  "prediction": {
+    "figure_type": "diagram",
+    "extracted_data": {
+      "property": "TRISO_particle",
+      "value": "5 components",
+      "unit": null,
+      "material": null,
+      "condition": null
+    },
+    "bounding_boxes": [
+      {
+        "x1": 30,
+        "y1": 30,
+        "x2": 570,
+        "y2": 450,
+        "label": "diagram_area",
+        "confidence": 0.91
+      },
+      {
+        "x1": 100,
+        "y1": 150,
+        "x2": 200,
+        "y2": 250,
+        "label": "component_0",
+        "confidence": 0.88
+      },
+      {
+        "x1": 220,
+        "y1": 150,
+        "x2": 320,
+        "y2": 250,
+        "label": "component_1",
+        "confidence": 0.88
+      },
+      {
+        "x1": 340,
+        "y1": 150,
+        "x2": 440,
+        "y2": 250,
+        "label": "component_2",
+        "confidence": 0.88
+      },
+      {
+        "x1": 460,
+        "y1": 150,
+        "x2": 560,
+        "y2": 250,
+        "label": "component_3",
+        "confidence": 0.88
+      },
+      {
+        "x1": 580,
+        "y1": 150,
+        "x2": 680,
+        "y2": 250,
+        "label": "component_4",
+        "confidence": 0.88
+      }
+    ]
+  }
+}

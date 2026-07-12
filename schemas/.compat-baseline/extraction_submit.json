@@ -1,0 +1,81 @@
+{
+  "module_name": "extraction_submit",
+  "classes": {
+    "MultimodalOptions": {
+      "extract_figures": {
+        "field_type": "bool",
+        "required": false,
+        "default": "Field(default=True, description='Whether to extract figures from the document.')"
+      },
+      "extract_tables": {
+        "field_type": "bool",
+        "required": false,
+        "default": "Field(default=True, description='Whether to extract tables from the document.')"
+      },
+      "figure_types": {
+        "field_type": "list[FigureType] | None",
+        "required": false,
+        "default": "Field(default=None, description='Filter to specific figure types. None means all types.')"
+      },
+      "confidence_threshold": {
+        "field_type": "float",
+        "required": false,
+        "default": "Field(default=0.5, ge=0.0, le=1.0, description='Minimum confidence score (0-1) for extracted elements.')"
+      },
+      "conflict_strategy": {
+        "field_type": "ConflictStrategy",
+        "required": false,
+        "default": "Field(default=ConflictStrategy.HIGHEST_CONFIDENCE, description='How to resolve conflicts between VLM and OCR results.')"
+      }
+    },
+    "ExtractionSubmitRequest": {
+      "source_url": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, description='URL of the document to extract from.')"
+      },
+      "source_filename": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, description='Original filename of the uploaded document.')"
+      },
+      "material_id": {
+        "field_type": "str | None",
+        "required": false,
+        "default": "Field(default=None, description='Optional material ID to associate extraction results with.')"
+      },
+      "options": {
+        "field_type": "MultimodalOptions",
+        "required": false,
+        "default": "Field(default_factory=MultimodalOptions, description='Multimodal extraction options.')"
+      },
+      "pages": {
+        "field_type": "list[int] | None",
+        "required": false,
+        "default": "Field(default=None, description='Specific pages to extract. None means all pages.')"
+      },
+      "language": {
+        "field_type": "str",
+        "required": false,
+        "default": "Field(default='en', description='Primary language of the document (ISO 639-1).')"
+      }
+    },
+    "ExtractionSubmitResponse": {
+      "job_id": {
+        "field_type": "str",
+        "required": true,
+        "default": "Field(description='Unique job identifier for tracking extraction progress.')"
+      },
+      "status": {
+        "field_type": "Literal['queued', 'processing']",
+        "required": true,
+        "default": "Field(description='Current status of the extraction job.')"
+      },
+      "estimated_duration_seconds": {
+        "field_type": "int | None",
+        "required": false,
+        "default": "Field(default=None, description='Estimated time to complete extraction.')"
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "paper_id": "SYNTH-PLO-007",
+  "figure_type": "plot",
+  "ground_truth": {
+    "figure_type": "plot",
+    "extracted_data": {
+      "property": "UN",
+      "value": 143.8,
+      "unit": "burnup",
+      "material": "UN",
+      "condition": "swelling_percent: variable burnup"
+    },
+    "bounding_boxes": [
+      {
+        "x1": 80,
+        "y1": 60,
+        "x2": 520,
+        "y2": 380,
+        "label": "plot_area",
+        "confidence": 0.92
+      },
+      {
+        "x1": 80,
+        "y1": 385,
+        "x2": 520,
+        "y2": 410,
+        "label": "x_axis",
+        "confidence": 0.88
+      },
+      {
+        "x1": 40,
+        "y1": 60,
+        "x2": 75,
+        "y2": 380,
+        "label": "y_axis",
+        "confidence": 0.87
+      },
+      {
+        "x1": 80,
+        "y1": 20,
+        "x2": 520,
+        "y2": 50,
+        "label": "title",
+        "confidence": 0.85
+      }
+    ]
+  },
+  "prediction": {
+    "figure_type": "plot",
+    "extracted_data": {
+      "property": "UN",
+      "value": 143.8,
+      "unit": "burnup",
+      "material": "UN",
+      "condition": "swelling_percent: variable burnup"
+    },
+    "bounding_boxes": [
+      {
+        "x1": 80,
+        "y1": 60,
+        "x2": 520,
+        "y2": 380,
+        "label": "plot_area",
+        "confidence": 0.92
+      },
+      {
+        "x1": 80,
+        "y1": 385,
+        "x2": 520,
+        "y2": 410,
+        "label": "x_axis",
+        "confidence": 0.88
+      },
+      {
+        "x1": 40,
+        "y1": 60,
+        "x2": 75,
+        "y2": 380,
+        "label": "y_axis",
+        "confidence": 0.87
+      },
+      {
+        "x1": 80,
+        "y1": 20,
+        "x2": 520,
+        "y2": 50,
+        "label": "title",
+        "confidence": 0.85
+      }
+    ]
+  }
+}
